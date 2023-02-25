@@ -1,10 +1,11 @@
 import { z } from "zod"
 
-export const CreateUser = z.object({
-  body: z.object({
-    username: z.string(),
-    age: z.number(),
-  }),
+const CreateUserSchema = z.object({
+  username: z.string().min(3).max(20),
+  age: z.number().min(14).max(130),
 })
 
-export type CreateUser = z.infer<typeof CreateUser>
+type CreateUser = Readonly<z.infer<typeof CreateUserSchema>>
+
+export { CreateUserSchema }
+export type { CreateUser }

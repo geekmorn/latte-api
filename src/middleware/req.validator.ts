@@ -1,13 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 import { ZodError, ZodSchema } from "zod"
 
-type ZodExc = Response
-
 export const validate =
-  (schema: ZodSchema) =>
-  (req: Request, res: Response, next: NextFunction): ZodExc | void => {
+  (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse({
+      schema.safeParse({
         body: req.body,
         query: req.query,
         params: req.params,

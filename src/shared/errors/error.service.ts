@@ -1,3 +1,5 @@
+import { Response } from "express"
+
 type Details = {
   url?: string
   resource?: string
@@ -5,7 +7,7 @@ type Details = {
 }
 
 type IErrorOptions = {
-  statusCode: number
+  status: number
   message: string
   details?: Details
   suggestions?: string

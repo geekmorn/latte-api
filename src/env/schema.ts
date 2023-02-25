@@ -1,13 +1,13 @@
 import { z } from "zod"
 
+const setPort = (envPort: number) => {
+  if (envPort >= 0 && envPort <= 65535) {
+    return envPort
+  }
+  return false
+}
+
 export const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
   JWT_SECRET: z.string(),
-  APP_PORT: z
-    .string()
-    .transform((envPort) => envPort || "3000")
-    .refine((envPort) => {
-      const portNumber = parseInt(envPort)
-      return portNumber >= 0 && portNumber <= 65535
-    }, "PORT must be a valid TCP port number"),
+  APP_PORT: z.coerce.number().transform((v) => setPort(v) || 3000),
 })

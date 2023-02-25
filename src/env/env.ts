@@ -12,17 +12,3 @@ if (_serverEnv.success === false) {
 }
 
 export const env = { ..._serverEnv.data }
-
-class DataBaseConfig {
-  public CONNECTOR = "postgresql"
-}
-
-process.env.DB_URL = ""
-
-class AuthConfig {
-  public ACCESS_TOKEN_EXPIRATION = 86400 as const
-  public REFRESH_TOKEN_EXPIRATION = 604800 as const
-}
-
-const authConfig = new AuthConfig()
-const config = { ...authConfig, ...env }

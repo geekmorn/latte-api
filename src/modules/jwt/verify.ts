@@ -1,14 +1,7 @@
 import { env } from "env"
 import jwt, { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken"
 import { JwtPayload } from "./types"
-import {
-  JWT_REGEX,
-  TOKEN_EXPIRED,
-  TOKEN_INVALID,
-  AUTH_TYPE,
-  SERVER_ERROR,
-  IError,
-} from "constants"
+import { JWT_REGEX, AUTH_TYPE } from "shared"
 
 type Result = {
   data: JwtPayload | null

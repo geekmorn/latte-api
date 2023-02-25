@@ -3,7 +3,7 @@ import cors from "cors"
 import emoji from "node-emoji"
 
 import { env } from "env"
-import { userRouter, authRouter } from "api"
+import { userRouter } from "api"
 import type { Server } from "http"
 
 type Bootstrap = () => Server
@@ -19,7 +19,7 @@ const bootstrap: Bootstrap = () => {
   app.use(express.json())
   app.use(cors())
   app.use("/", userRouter)
-  app.use("/", authRouter)
+  // app.use("/", authRouter)
 
   // Add everything you need below:
   // ...

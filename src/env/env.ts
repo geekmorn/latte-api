@@ -1,7 +1,8 @@
 import { envSchema } from "./schema"
 import { formatErrors } from "./formatErrors"
 
-const _serverEnv = envSchema.safeParse(process.env)
+const _env = process.env
+const _serverEnv = envSchema.safeParse(_env)
 
 if (_serverEnv.success === false) {
   console.error(

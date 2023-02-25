@@ -1,63 +1,26 @@
+import { verify as _verify } from "jsonwebtoken"
+
 import { env } from "env"
-import jwt, { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken"
-import { JwtPayload } from "./types"
-import {
-  JWT_REGEX,
-  TOKEN_EXPIRED,
-  TOKEN_INVALID,
-  AUTH_TYPE,
-  SERVER_ERROR,
-  IError,
-} from "constants"
+import { isNullable } from "shared/utils"
+import { makeJWTValidationError } from "shared/errors"
+import { initialMeta } from "modules/jwt"
 
-type Result = {
-  data: JwtPayload | null
-  err: IError | null
-}
+import type { JwtPayload } from "jsonwebtoken"
 
-const verify = async (token: string): Promise<JwtPayload> =>
-  await new Promise((resolve, reject) => {
-    jwt.verify(token, env.JWT_SECRET, (err, decoded) => {
-      if (err || !decoded || typeof decoded === "string") {
-        reject(err)
+export async function verify(token: string): Promise<JwtPayload> {
+  return await new Promise((resolve, reject) => {
+    _verify(token, env.JWT_SECRET, (e, decoded) => {
+      if (e && isNullable(decoded)) {
+        reject(makeJWTValidationError({ ...initialMeta, stack: e.stack }))
+      } else if (typeof decoded === "string") {
+        resolve(JSON.parse(decoded))
+      } else if (typeof decoded === "undefined") {
+        reject(
+          makeJWTValidationError(initialMeta, "Authorization token is required")
+        )
       } else {
-        resolve(decoded as JwtPayload)
+        resolve(decoded)
       }
     })
   })
-
-const validateToken = (authHeader: string): string | never => {
-  const [authType, token] = authHeader.split(" ")
-
-  const isBearer = authType.trim().toLocaleLowerCase() === AUTH_TYPE
-  const isValid = isBearer && JWT_REGEX.test(token)
-
-  if (!isValid) throw new JsonWebTokenError("Invalid token")
-  return token
 }
-
-const respond = (options: Partial<Result>) => {
-  return {
-    data: options?.data ? options.data : null,
-    err: options?.err ? options.err : null,
-  }
-}
-
-const getJwtData = async (authHeader: string | undefined): Promise<Result> => {
-  try {
-    if (!authHeader) throw new JsonWebTokenError("Invalid token")
-    const token = validateToken(authHeader)
-    const data = await verify(token)
-    return respond({ data })
-  } catch (err) {
-    if (err instanceof TokenExpiredError) {
-      return respond({ err: TOKEN_EXPIRED })
-    } else if (err instanceof JsonWebTokenError) {
-      return respond({ err: TOKEN_INVALID })
-    } else {
-      return respond({ err: SERVER_ERROR })
-    }
-  }
-}
-
-export { getJwtData }

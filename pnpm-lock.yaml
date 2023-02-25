@@ -8,6 +8,7 @@ specifiers:
   '@types/node': ^18.13.0
   '@types/node-emoji': ^1.8.2
   cors: ^2.8.5
+  dotenv: ^16.0.3
   express: ^4.18.2
   jsonwebtoken: ^9.0.0
   node-emoji: ^1.11.0
@@ -21,6 +22,7 @@ specifiers:
 dependencies:
   '@prisma/client': 4.10.1_prisma@4.10.1
   cors: 2.8.5
+  dotenv: 16.0.3
   express: 4.18.2
   jsonwebtoken: 9.0.0
   node-emoji: 1.11.0
@@ -357,6 +359,11 @@ packages:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
     dev: true
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /ecdsa-sig-formatter/1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}

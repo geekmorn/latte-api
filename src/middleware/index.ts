@@ -1,2 +1,2 @@
 export * from "./req.validator"
-export * from "./authenticate"
+export * from "./authorize"

@@ -1,8 +1,9 @@
 import { Request, Response, Router } from "express"
 import { prisma } from "db"
+
 import { validate } from "middleware"
-import { CreateUser } from "schemas"
-import { throw404Error } from "shared"
+import { CreateUserSchema } from "schemas"
+import { make404Error } from "shared/errors"
 
 export const router = Router()
 
@@ -12,7 +13,7 @@ router.get("/users", async (req, res) => {
   try {
     console.log("GET users")
   } catch (e: any) {
-    throw404Error({
+    make404Error({
       url: "http://service/api/users",
       resource: "Users",
       stack: e?.stack,
@@ -24,7 +25,7 @@ router.get("/users", async (req, res) => {
 
 router.post(
   "/users",
-  validate(CreateUser),
+  validate(CreateUserSchema),
   async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: req.body,

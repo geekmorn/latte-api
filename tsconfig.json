@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "module": "CommonJS",
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -16,8 +18,13 @@
     "strictPropertyInitialization": false,
     "allowJs": true,
     "checkJs": true,
-    "noEmit": false
+    "noEmit": false,
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", ".vscode"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
 }

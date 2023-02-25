@@ -1,23 +1,26 @@
-type Details = {
+type Meta = {
   url?: string
   resource?: string
-  stack?: Error["stack"] // Stack trace of the Error. Pass catched Error.stack as an argument.
+  stack?: Error["stack"] // Error stack trace. Pass caught Error.stack as an argument.
 }
 
-type IErrorOptions = {
-  statusCode: number
+interface IApiError {
   message: string
-  details?: Details
-  suggestions?: string
+  statusCode: number
+  meta?: Meta
+  hint?: string
 }
 
-interface IError {
-  options: IErrorOptions
-}
-
-class ApiError implements IError {
-  constructor(public options: IErrorOptions) {}
+class ApiError extends Error implements IApiError {
+  constructor(
+    public message: string = "API error occurred",
+    public statusCode: number,
+    public meta?: Meta,
+    public hint?: string
+  ) {
+    super(message)
+  }
 }
 
 export { ApiError }
-export type { Details }
+export type { Meta }

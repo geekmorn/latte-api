@@ -1,27 +1,20 @@
-import { Router, Response, Request } from "express"
-import { Query } from "express-serve-static-core"
-import { authenticate } from "middleware"
-import { getJwtData, generateJwt } from "modules/jwt"
+import { Router, Response, Request, TRequest } from "express"
+
+import { authorize } from "middleware"
+import { auth, generateToken } from "modules/jwt"
 
 export const router = Router()
+const SUBJECT = "test subject"
 
-export type QueryParams = {
-  [key: string]: undefined | string | string[]
-}
+router.get("/auth", async (req: Request, res: Response) => {
+  const { accessToken, refreshToken } = await generateToken(SUBJECT)
+  const { data, error, status } = await auth(req.headers.authorization)
 
-export type Req<B, Q extends Query = QueryParams> = Request & {
-  body: B
-  query: Q
-}
-
-type ResponseBody = { test: string }
-
-router.get("/auth", async (req: Req<ResponseBody>, res: Response) => {
-  req.body.test
-  const jwt = await generateJwt("1")
-  res.send(jwt.accessToken)
+  console.log(req.body.test)
+  console.warn(accessToken, refreshToken)
+  // res.send(accessToken)
 })
 
-router.get("/authc", authenticate, async (req: Request, res: Response) => {
+router.get("/authorize", authorize, async (req: Request, res: Response) => {
   return res.send(req.body.user)
 })

@@ -1,14 +1,14 @@
-import { envSchema } from "./schema"
+import { envSchema } from "./env.schema"
 import { formatErrors } from "./formatErrors"
 
-const _serverEnv = envSchema.safeParse(process.env)
+const _env = envSchema.safeParse(process.env)
 
-if (_serverEnv.success === false) {
+if (_env.success === false) {
   console.error(
     "❌ Invalid environment variables:\n",
-    ...formatErrors(_serverEnv.error.format())
+    ...formatErrors(_env.error.format())
   )
   throw new Error("Invalid environment variables")
 }
 
-export const env = { ..._serverEnv.data }
+export const env = { ..._env.data }

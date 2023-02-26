@@ -1,8 +1,7 @@
-// @ts-nocheck
+import { z } from "zod"
 
-export const formatErrors = (
-  /** @type {import('zod').ZodFormattedError<Map<string,string>,string>} */
-  errors
+const formatErrors = (
+  errors: z.ZodFormattedError<Map<string, string>, string>
 ) =>
   Object.entries(errors)
     .map(([name, value]) => {
@@ -10,3 +9,5 @@ export const formatErrors = (
         return `${name}: ${value._errors.join(", ")}\n`
     })
     .filter(Boolean)
+
+export { formatErrors }

@@ -5,7 +5,7 @@ import { JWT_REGEX, AUTH_TYPE } from "shared"
 
 type Result = {
   data: JwtPayload | null
-  err: IError | null
+  err: Error | null
 }
 
 const verify = async (token: string): Promise<JwtPayload> =>
@@ -44,11 +44,11 @@ const getJwtData = async (authHeader: string | undefined): Promise<Result> => {
     return respond({ data })
   } catch (err) {
     if (err instanceof TokenExpiredError) {
-      return respond({ err: TOKEN_EXPIRED })
+      return respond({})
     } else if (err instanceof JsonWebTokenError) {
-      return respond({ err: TOKEN_INVALID })
+      return respond({})
     } else {
-      return respond({ err: SERVER_ERROR })
+      return respond({})
     }
   }
 }

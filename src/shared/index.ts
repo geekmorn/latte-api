@@ -1,4 +1,4 @@
 export * from "./regex"
-export * from "./errors/errors.factory"
+export * from "./errors"
 export * from "./globals"
 export * from "./httpStatusCode"
